@@ -1,0 +1,21 @@
+Process
+    Set Up Skeleton For Auth Service + Base Infra Setup (i.e. Skaffold & Ingress):
+        - make auth directory and install base dependencies (with ts config file)
+        - create dockerfile with instructions on building image
+
+        - create auth deployment and auth service yaml file (deployment describes
+        how to keep pods running, ClusterIP service enables internal network access)
+
+        - create skaffold.yaml file to handle CI and sync updates from infra and src
+        to cluster
+
+        - create ingress-srv.yaml file in infra folder, which will create Ingress object 
+        to handle routing web requests to running services (like auth or orders services)
+
+        - write dummy test route in auth/src/index.ts to make sure that you have access to local
+        cluster through Ingress nginx ('/api/users/current-user' route)
+        - *manually change etc/hosts file so you can visit local version of ticketing.dev
+        in your local browser (solely for development purposes!)
+
+    Set Up Google Cloud Development Environment:
+        - 

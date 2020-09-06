@@ -1,0 +1,17 @@
+Kubernetes:
+    - a deployment is responsible for keeping a set of pods running
+    - a service is responsible for enabling internal or external network access 
+    to a set of pods
+    - Skaffold: handles CI and applies updates to src and infra files to cluster
+
+Skaffold:
+    - deploy section describes where we should look for updates to deployments scripts
+    - build section describes where to look for updates to src code
+    - running skaffold dev runs skaffold file, which deploys everything in infra/k8s
+    and watches for updates to those files + specified src files
+
+Ingress NGINX:
+    - Ingress Controller provides services for delivering and distributing client 
+    web requests to Kubernetes cluster
+
+Local Development Environment: equivalent of running all pods on our local machine
