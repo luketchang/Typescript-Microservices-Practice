@@ -15,3 +15,9 @@ Ingress NGINX:
     web requests to Kubernetes cluster
 
 Local Development Environment: equivalent of running all pods on our local machine
+
+Google Cloud Development:
+    - making changes to specifically synced files (i.e. the ones listed under sync in the
+    skaffold file will automatically update the code in our pods)
+    - making changes to non-synced files (e.g. package.json) will automatically tell Google
+    Cloud Build to rebuild our docker image and update its deployment
