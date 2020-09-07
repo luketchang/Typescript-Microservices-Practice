@@ -37,4 +37,15 @@ Process
         want uniform error object structure across application
         - create errorHandler middleware function that is used in auth's index.ts (anytime
         object with err, req, res, and next is received, errorHandler called)
-        - create custom error subclasses for different potential errors types
+        - create custom error subclasses for different potential errors types (helps us distinguish
+        what error type is what and how to parse it into our uniform error we send back to client)
+        - in errorHandler, parse custom error objects to form uniform error structure (i.e. array
+        of errors each with properties _message and _field?)
+        - still, we have the problem of 1) calling serializeErrors for each type of error 
+        and 2) not having any formal structure that unifies the database and request validation
+        errors; solution is to create abstract class CustomError so we can formally guarantee
+        other error types conform to it and so we can call serialize error and get status code to
+        send in error handler with guarantees
+            - abstract CustomError class extends error but requires statusCode field and serializeErrors
+            function
+        - npm install express-async-errors to handle case of errors being thrown in async route handlers

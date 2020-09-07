@@ -26,3 +26,7 @@ Google Cloud Development:
 Error Handling:
     - when error is thrown in Express server, error is sent detected by express and sent to
     error handling middleware being used by app
+    - we implement overarching CustomError abstract class so we can have requirements that
+    error types conform to and so we can call properly call serializeError on anything that 
+    conforms to CustomError with the guarantee that the serializeError is implemented and
+    that there is a statusCode field
