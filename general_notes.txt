@@ -9,6 +9,7 @@ Skaffold:
     - build section describes where to look for updates to src code
     - running skaffold dev runs skaffold file, which deploys everything in infra/k8s
     and watches for updates to those files + specified src files
+    - without Skaffold, we would apply all services using kubectl
 
 Ingress NGINX:
     - Ingress Controller provides services for delivering and distributing client 
@@ -21,3 +22,7 @@ Google Cloud Development:
     skaffold file will automatically update the code in our pods)
     - making changes to non-synced files (e.g. package.json) will automatically tell Google
     Cloud Build to rebuild our docker image and update its deployment
+
+Error Handling:
+    - when error is thrown in Express server, error is sent detected by express and sent to
+    error handling middleware being used by app

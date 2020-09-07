@@ -18,4 +18,23 @@ Process
         in your local browser (solely for development purposes!)
 
     Set Up Google Cloud Development Environment:
-        - 
+        - create new project in Google Cloud account and set up new Kubernetes cluster
+        - install Google Cloud SDK on local machine, configure in ticketing directory, and
+        connect local docker to Google Cloud cluster (now have options of desktop cluster
+        or Google Cloud)
+        - enable Google Cloud Build for CI in dashboard and update skaffold.yaml to replace local build with
+        remote GCloud Build 
+        - also replace local docker image ids with Google Cloud Id (image id: [HOSTNAME]/[PROJECT-ID]/[IMAGE])
+        - install Ingress nginx in remote GCloud cluster and change etc/hosts file to reroute requests
+        to ticketing.dev to GCloud load balancer IP address instead of local IP address
+
+    Set Up Auth Route and Start Signup Error Handling:
+        - setup skeletons for each route (signup, signin, signout, current user)
+        - use express-validator library to validate input from signup form and parse request
+        object for any errors appended onto it after middleware validation
+        - problem to keep in mind is that there could many different sources of errors 
+        (invalid input, info already in use, database connection down, etc) and we
+        want uniform error object structure across application
+        - create errorHandler middleware function that is used in auth's index.ts (anytime
+        object with err, req, res, and next is received, errorHandler called)
+        - create custom error subclasses for different potential errors types
