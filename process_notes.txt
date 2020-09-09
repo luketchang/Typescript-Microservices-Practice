@@ -49,3 +49,8 @@ Process
             - abstract CustomError class extends error but requires statusCode field and serializeErrors
             function
         - npm install express-async-errors to handle case of errors being thrown in async route handlers
+
+    Database Creation and Modeling for Auth:
+        - install mongoose and write auth-mongo-depl.yaml file to create running instance of mongo-db server for
+        just auth service
+        - connect auth/index.ts to mongoose instances auth database
