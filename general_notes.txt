@@ -34,3 +34,9 @@ Error Handling:
 MongoDB:
     - model describes the entire collection of objects (e.g. collection of users)
     - schema defines a single object in the collection (e.g. a single user)
+
+Interfaces and Abstract Classes:
+    - an interface simply defines properties and functions with no implementation and can
+    only inherit from other interfaces
+    - an abstract class can inherit properties and implementations from other classes and
+    definitions from interfaces (as long as it implements them)

@@ -54,3 +54,11 @@ Process
         - install mongoose and write auth-mongo-depl.yaml file to create running instance of mongo-db server for
         just auth service
         - connect auth/index.ts to mongoose instances auth database
+        - create user schema and with it, the User model (db)
+        - create interfaces to enforce strict types on parameters and return types for building documents 
+        (schema instances)
+            - interface userAttrs (parameters used to create new User object)
+            - interface for mongoose.Model called UserModel so we can define custom build function that 
+            uses userAttrs
+            - interface for mongoose.Document called UserDoc so we can enforce structure of returned object when
+            building a new User
