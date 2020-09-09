@@ -62,3 +62,6 @@ Process
             uses userAttrs
             - interface for mongoose.Document called UserDoc so we can enforce structure of returned object when
             building a new User
+        - update signup route to check for existing user, throw new BadRequestError if already in use, and create
+        new user otherwise
+        - add in password hashing class functions and Mongo pre-hook to hash password before storing

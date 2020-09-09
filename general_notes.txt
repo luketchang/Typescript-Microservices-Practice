@@ -40,3 +40,6 @@ Interfaces and Abstract Classes:
     only inherit from other interfaces
     - an abstract class can inherit properties and implementations from other classes and
     definitions from interfaces (as long as it implements them)
+
+General JavaScript:
+    - using arrow function instead of regular declaration stops you from being able to use this on callback

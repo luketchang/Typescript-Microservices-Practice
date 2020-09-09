@@ -8,7 +8,6 @@ export class RequestValidationError extends CustomError {
     }
 
     statusCode = 400;
-
     serializeErrors() {
         return this.errors.map(err => {
             return {
