@@ -65,3 +65,8 @@ Process
         - update signup route to check for existing user, throw new BadRequestError if already in use, and create
         new user otherwise
         - add in password hashing class functions and Mongo pre-hook to hash password before storing
+
+    Authentication Strategies:
+        - in order to prevent total reliability on auth service for authentication, we will create shared library
+        for all services that allows JWT authentication without using auth service
+        - install jsonwebtoken and cookie session and have signup route stick jwt to req.session once user signs up

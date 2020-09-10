@@ -43,3 +43,15 @@ Interfaces and Abstract Classes:
 
 General JavaScript:
     - using arrow function instead of regular declaration stops you from being able to use this on callback
+    - JSON Web Tokens Refresher:
+        - user sends in payload with user id, username, expiration, etc
+        - server takes payload, signs payload with user's secret key (stored in server), appends 
+        signature to JWT (response), and sends JWT back to user
+        - if user changes any part of payload, signature won't match payload
+        - all that needs to be verified when using JWT for auth is that signature matches payload x key
+    - Cookie Auth Refresher:
+        - after authentication, server stores a session ID and sends a copy back to the user
+        - user must hold this session ID every time they want to make a request
+    - Server-Side Rendering vs. Browser-Side Rendering:
+        - server-side: server renders entire HTML file (and JavaScript) then sends it back to user
+        - browser-side: server sends HTML file with script tags and browser loads JavaScript itself
