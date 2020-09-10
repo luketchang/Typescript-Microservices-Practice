@@ -70,3 +70,4 @@ Process
         - in order to prevent total reliability on auth service for authentication, we will create shared library
         for all services that allows JWT authentication without using auth service
         - install jsonwebtoken and cookie session and have signup route stick jwt to req.session once user signs up
+        - create jwt-secret for entire cluster with kubectl command and load with process.env
