@@ -71,3 +71,9 @@ Process
         for all services that allows JWT authentication without using auth service
         - install jsonwebtoken and cookie session and have signup route stick jwt to req.session once user signs up
         - create jwt-secret for entire cluster with kubectl command and load with process.env
+        - fix json response on successful auth to remove password (customize toJSON transform function)
+        - start signin flow by adding basic error handling flow for bad inputs (make validateRequest middleware to
+        share between auth and signin)
+        - do error checking in signin route (email exists + password valid) and insert new jwt if checks pass
+        - write current-user route, which checks if it has received jwt in body, then verifies it and sends back
+        jwt payload field (which contains all user info)

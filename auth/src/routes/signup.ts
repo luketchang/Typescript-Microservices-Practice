@@ -35,8 +35,8 @@ router.post('/api/users/sign-up',
 
         const userJwt = jwt.sign(
             {
-            id: newUser.id,
-            email: newUser.email
+                id: newUser.id,
+                email: newUser.email
             }, 
             process.env.JWT_KEY!
         );

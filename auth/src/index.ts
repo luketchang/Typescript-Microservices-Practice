@@ -10,6 +10,7 @@ import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
 
 import { errorHandler } from './middlewares/error-handler';
+import { validateRequest } from './middlewares/validate-request';
 import { NotFoundError } from './errors/not-found-error';
 
 const app = express();
@@ -31,6 +32,7 @@ app.all('*', async (req, res) => {
 })
 
 app.use(errorHandler);
+app.use(validateRequest);
 
 const start = async () => {
     if(!process.env.JWT_KEY) {
