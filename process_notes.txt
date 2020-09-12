@@ -82,3 +82,12 @@ Process
         on req.currentUser
         - add require auth middleware, which checks that req.currentUser exists (since current user middleware will
         set req.currentUser to null if no valid jwt)
+
+    Testing Auth Service:
+        - separate out express app and start script into app.ts and index.ts so we can still use app in test environment
+        - install dev dependencies (Jest, Supertest), configure package.json scripts for Jest and testing setup,
+        and write setup.ts testing setup script (creates dev JWT_KEY, instantiates mongo memory server and connection, clears out database
+        before tests, and closes connection when test suites done)
+        - write signup route tests and set cookie security to be false when in test env
+        - write signin route tests
+        - write current user route tests and add helper test file to set cookie on auth (getAuthCookie.ts)

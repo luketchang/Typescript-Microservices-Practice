@@ -4,6 +4,7 @@ Kubernetes:
     to a set of pods
     - A cluster contains a set of nodes and each pod contains nodes
     - Skaffold: handles CI and applies updates to src and infra files to cluster
+    - skaffold uses our Dockerfile to figure out how to start app (which says run npm start)
 
 Skaffold:
     - deploy section describes where we should look for updates to deployments scripts
@@ -41,6 +42,12 @@ Interfaces and Abstract Classes:
     only inherit from other interfaces
     - an abstract class can inherit properties and implementations from other classes and
     definitions from interfaces (as long as it implements them)
+
+Microservices Testing:
+    - single chunks of code in isolation (unit testing)
+    - multiple chunks of code in working together (action flows like middleware to routes)
+    - multiple components working together (e.g. how auth service interacts with Mongo or event bus)
+    - multiple services working together (e.g. how orders and ticketing services interact)
 
 General JavaScript:
     - using arrow function instead of regular declaration stops you from being able to use this on callback
