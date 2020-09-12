@@ -77,3 +77,5 @@ Process
         - do error checking in signin route (email exists + password valid) and insert new jwt if checks pass
         - write current-user route, which checks if it has received jwt in body, then verifies it and sends back
         jwt payload field (which contains all user info)
+        - write signout route, which sets req.session to null
+        - extract current-user check for jwt existence and validity to current-user middleware
