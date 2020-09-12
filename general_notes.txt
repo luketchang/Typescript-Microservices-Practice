@@ -56,3 +56,5 @@ General JavaScript:
     - Server-Side Rendering vs. Browser-Side Rendering:
         - server-side: server renders entire HTML file (and JavaScript) then sends it back to user
         - browser-side: server sends HTML file with script tags and browser loads JavaScript itself
+    - current user middleware serves the function of setting currentUser object if possible while
+    require auth checks that currentUser is set and throws error if not

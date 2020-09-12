@@ -78,4 +78,7 @@ Process
         - write current-user route, which checks if it has received jwt in body, then verifies it and sends back
         jwt payload field (which contains all user info)
         - write signout route, which sets req.session to null
-        - extract current-user check for jwt existence and validity to current-user middleware
+        - extract current-user check for jwt existence and validity to current-user middleware, and stick payload
+        on req.currentUser
+        - add require auth middleware, which checks that req.currentUser exists (since current user middleware will
+        set req.currentUser to null if no valid jwt)

@@ -43,7 +43,7 @@ router.post('/api/users/sign-in',
 
         req.session = {
             jwt: userJwt
-        }
+        };
 
         res.status(200).send(existingUser);
     }
