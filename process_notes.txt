@@ -91,3 +91,14 @@ Process
         - write signup route tests and set cookie security to be false when in test env
         - write signin route tests
         - write current user route tests and add helper test file to set cookie on auth (getAuthCookie.ts)
+
+    Starting Client React App:
+        - install/setup react and next
+        - set up client-depl.yaml and update skaffold.yaml to sync client deployment and update ingress-srv.yaml to route
+        traffic to client as well
+        - small fix by adding next.config.js to poll for sync updates (issues with next and skaffold)
+        - import bootstrap css and make special _app.js page for next to be able to load up components and pageProps
+        while still using bootstrap
+        - make signup js component that makes axios request and add in form error display handling
+        - create generalized useRequest hook component that exports a makeRequest function and set of errors that is
+        set during makeRequest (takes in url, method, and body and can make any request)
