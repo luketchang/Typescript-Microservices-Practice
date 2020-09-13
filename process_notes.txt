@@ -105,4 +105,5 @@ Process
         - add onSuccess callback to use next/router to redirect to index page on successful sign up
         - moving onto getting currentUser on index landing page, we have to make separate cases for whether
         or not we are on browser or server so we have separate request types, one to relative path and one to intercluster
-        url
+        url (different base urls + need to carry over req.headers)
+        - extracted out getInitialProps logic for dealing with server vs. browser requests into build-client file/function
