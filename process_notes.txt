@@ -102,3 +102,7 @@ Process
         - make signup js component that makes axios request and add in form error display handling
         - create generalized useRequest hook component that exports a makeRequest function and set of errors that is
         set during makeRequest (takes in url, method, and body and can make any request)
+        - add onSuccess callback to use next/router to redirect to index page on successful sign up
+        - moving onto getting currentUser on index landing page, we have to make separate cases for whether
+        or not we are on browser or server so we have separate request types, one to relative path and one to intercluster
+        url

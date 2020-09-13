@@ -65,3 +65,9 @@ General JavaScript:
         - browser-side: server sends HTML file with script tags and browser loads JavaScript itself
     - current user middleware serves the function of setting currentUser object if possible while
     require auth checks that currentUser is set and throws error if not
+
+Server Side Rendering:
+    - when we use getInitialProps, the function is being called from the server, NOT the browser
+    - this means that we when we make a network request, we must use the correct url intercluster communication
+    (not the same as the browser)
+    - the url is given by http://SERVICENAME.NAMESPACE....
