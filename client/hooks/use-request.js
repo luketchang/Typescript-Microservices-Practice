@@ -7,10 +7,10 @@ export default ({ url, method, body, onSuccess }) => {
     const makeRequest = async () => {
         try {
             setErrors(null);
-            const res = await axios[method](url, body);
+            const res = await axios[method](url, body); //return response or throw err
 
             if(onSuccess) {
-                onSuccess();
+                onSuccess(res.data);
             }
 
             return res.data;

@@ -2,16 +2,12 @@ Process
     Set Up Skeleton For Auth Service + Base Infra Setup (i.e. Skaffold & Ingress):
         - make auth directory and install base dependencies (with ts config file)
         - create dockerfile with instructions on building image
-
         - create auth deployment and auth service yaml file (deployment describes
         how to keep pods running, ClusterIP service enables internal network access)
-
         - create skaffold.yaml file to handle CI and sync updates from infra and src
         to cluster
-
         - create ingress-srv.yaml file in infra folder, which will create Ingress object 
         to handle routing web requests to running services (like auth or orders services)
-
         - write dummy test route in auth/src/index.ts to make sure that you have access to local
         cluster through Ingress nginx ('/api/users/current-user' route)
         - *manually change etc/hosts file so you can visit local version of ticketing.dev
@@ -102,8 +98,16 @@ Process
         - make signup js component that makes axios request and add in form error display handling
         - create generalized useRequest hook component that exports a makeRequest function and set of errors that is
         set during makeRequest (takes in url, method, and body and can make any request)
+            - makeRequest makes axios call and inserts cookie and redirects onSuccess OR updates errors variable in signup page
+            if error thrown 
         - add onSuccess callback to use next/router to redirect to index page on successful sign up
         - moving onto getting currentUser on index landing page, we have to make separate cases for whether
         or not we are on browser or server so we have separate request types, one to relative path and one to intercluster
         url (different base urls + need to carry over req.headers)
-        - extracted out getInitialProps logic for dealing with server vs. browser requests into build-client file/function
+        - extract out getInitialProps logic for dealing with server vs. browser requests into resuable build-client file/function
+        (returns generic axios object with correct base url)
+        - create signin page (same as signup with different request)
+        - moving on to app header creation, we change app's getInitialProps to get currentUser in app component but also manually call
+        getInitialProps for the specific child page component (so we can get current user and whatever info specific page also needs)
+        - now that we can pass currentUser status into header component in app, create frontend header component with conditional
+        rendering and what not
