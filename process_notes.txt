@@ -111,3 +111,16 @@ Process
         getInitialProps for the specific child page component (so we can get current user and whatever info specific page also needs)
         - now that we can pass currentUser status into header component in app, create frontend header component with conditional
         rendering and what not
+        - create signout component that calls api and updates browser cookies
+
+    Extracting Shared Auth Logic into NPM Package:
+        - create npm organization and new common folder
+        - rename package name to match npm organization and publish initial version
+        - project setup to compile typescript files into javascript:
+            - tsc --init and npm install typescript + del-cli
+            - setup outDir to build in tscConfig and setup build and clean scripts
+            - setup package.json to export index.js from build and use type declaration files
+            - tell package.json to include files in build directory when publishing to npm
+            - write npm publish script that will git add, commit, patch, build, and publish
+        - cut error and middlewares folders from auth and paste into common/src folder (export all files from folders
+        from index.ts file too to allow easy importing from @lt-ticketing)
