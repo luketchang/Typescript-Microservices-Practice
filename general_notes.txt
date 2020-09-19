@@ -35,8 +35,15 @@ Error Handling:
     that there is a statusCode field
 
 MongoDB:
-    - model describes the entire collection of objects (e.g. collection of users)
-    - schema defines a single object in the collection (e.g. a single user)
+    - Model refers to entire data collection
+    - Document provides structure for single record in db IN JavaScript/TypeScript
+    - Schema provides structure of record in MongoDB
+
+    - add static method to model by adding it to model's schema
+    - mongoose.model<document,model>(‘name’, schema) creates actual instance of database directly 
+    connected to THE mongoose object which was connected in app start up
+    - Models are essentially connected to THE original mongoose object so you don’t need to import 
+    mongoose into each route file
 
 Interfaces and Abstract Classes:
     - an interface simply defines properties and functions with no implementation and can

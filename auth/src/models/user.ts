@@ -6,34 +6,36 @@ interface UserAttrs {
     password: string;
 }
 
-interface UserModel extends mongoose.Model<UserDoc> {
-    build(attrs: UserAttrs): UserDoc;
-}
-
 interface UserDoc extends mongoose.Document {
    email: string;
    password: string; 
 }
 
-const userSchema = new Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
-}, {
-    toJSON: {
-        transform(doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-            delete ret.password;
-            delete ret.__v;
+interface UserModel extends mongoose.Model<UserDoc> {
+    build(attrs: UserAttrs): UserDoc;
+}
+
+const userSchema = new Schema(
+    {
+        email: {
+            type: String,
+            required: true
+        },
+        password: {
+            type: String,
+            required: true
+        }
+    }, {
+        toJSON: {
+            transform(_, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+                delete ret.password;
+                delete ret.__v;
+            }
         }
     }
-});
+);
 
 userSchema.pre('save', async function() {
     if(this.isModified('password')) {

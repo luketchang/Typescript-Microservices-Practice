@@ -3,10 +3,10 @@ import jwt from 'jsonwebtoken';
 import { app } from '../app';
 
 export const getAuthCookie = () => {
-    const email = 'test@test.com';
+    const id = 'MOCK_ID'
     const password = 'password';
     const payload = {
-        email,
+        id,
         password
     };
 

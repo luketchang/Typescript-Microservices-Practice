@@ -129,9 +129,12 @@ Process
     Starting the Ticketing Service:
         - copy over necessary stuff from auth to speed up setup and npm install dependencies :)
         - create tickets-depl.yaml file for deploying tickets service and separate tickets-mongo-depl.yaml file
-        - start writing failing tests for /new tickets route
-        - create initial /api/tickets post route (new) that just sends status 200
+        - start writing failing tests for new /api/tickets POST route
+        - create initial /api/tickets post route (new) that just sends simple status 200
         - add in requireAuth middleware to new route and add currentUser middleware to app
         - create mock cookie function that creates mock jwt (since we can't reach into auth srv for
         tickets testing)
         - add in new ticket title and price validation with express-validator and the validateRequest middleware
+        - write ticket model for mongoose in with all custom interfaces, build fn, toJSON, etc
+        - add functionality into new tickets route using new ticket model object
+        - moving onto GET /api/tickets/:id route, write failing tests for this route
