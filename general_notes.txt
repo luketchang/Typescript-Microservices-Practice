@@ -79,3 +79,7 @@ Server Side Rendering:
     - this means that we when we make a network request, we must use the correct url intercluster communication
     (not the same as the browser)
     - the url is given by http://SERVICENAME.NAMESPACE....
+
+Test Driven Development:
+    - allows us to get quick feedback loop when creating new features (don't have to use Postman or browser
+    to manually test each time)

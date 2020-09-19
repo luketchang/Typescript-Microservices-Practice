@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
+import { requireAuth, validateRequest } from '@lt-ticketing/common';
 
 import { Ticket } from '../models/ticket';
-import { requireAuth, validateRequest } from '@lt-ticketing/common';
 
 const router = express.Router();
 

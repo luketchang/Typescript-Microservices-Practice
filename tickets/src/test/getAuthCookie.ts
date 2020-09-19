@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
 
-import { app } from '../app';
-
 export const getAuthCookie = () => {
     const id = 'MOCK_ID'
     const password = 'password';

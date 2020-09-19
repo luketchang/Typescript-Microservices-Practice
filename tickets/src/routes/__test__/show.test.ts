@@ -1,4 +1,5 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 
 import { app } from '../../app';
 import { getAuthCookie } from '../../test/getAuthCookie';
@@ -6,8 +7,10 @@ import { Ticket } from '../../models/ticket';
 import { createTicketRouter } from '../new';
 
 it('returns 404 if ticket is not found', async () => {
+    const id = new mongoose.Types.ObjectId().toHexString();
+
     await request(app)
-        .get('/api/tickets/NO_TICKET_EXISTS')
+        .get(`/api/tickets/${id}`)
         .send()
         .expect(404);
 });
