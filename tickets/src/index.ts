@@ -6,12 +6,12 @@ const start = async () => {
     if(!process.env.JWT_KEY) {
         throw new Error('JWT_KEY not defined.');
     }
-    if(!process.env.AUTH_MONGO_URI) {
-        throw new Error('JWT_KEY not defined.');
+    if(!process.env.TICKETS_MONGO_URI) {
+        throw new Error('TICKETS_MONGO_URI not defined.')
     }
 
     try {
-        await mongoose.connect(process.env.AUTH_MONGO_URI, {
+        await mongoose.connect(process.env.TICKETS_MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true

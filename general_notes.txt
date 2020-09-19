@@ -16,6 +16,7 @@ Skaffold:
 Ingress NGINX:
     - Ingress Controller provides services for delivering and distributing client 
     web requests to Kubernetes cluster
+    - our ingress service interacts with our other deployments using their ClusterIP services
 
 Local Development Environment: equivalent of running all pods on our local machine
 

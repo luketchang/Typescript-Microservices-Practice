@@ -124,3 +124,8 @@ Process
             - write npm publish script that will git add, commit, patch, build, and publish
         - cut error and middlewares folders from auth and paste into common/src folder (export all files from folders
         from index.ts file too to allow easy importing from @lt-ticketing)
+        - fix all import statements in auth to use npm package
+
+    Starting the Ticketing Service:
+        - copy over necessary stuff from auth to speed up setup :)
+        - create tickets-depl.yaml file for deploying tickets service and separate tickets-mongo-depl.yaml file
