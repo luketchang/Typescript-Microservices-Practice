@@ -143,3 +143,6 @@ Process
         issues, add console.error to there so we can more easily debug in future
         - fix fake id format and create actual mongo id object for :id
         - write single test and implementation for index GET /api/tickets route
+        - write failing tests for PUT /api/tickets/:id route
+        - write necessary checks for ticket existence and user auth in PUT route
+        - write check for user requesting update to own tickets

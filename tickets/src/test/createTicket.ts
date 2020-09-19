@@ -3,7 +3,7 @@ import request from 'supertest';
 import { app } from '../app';
 
 export const createTicket = async (title: string, price: number, cookie: string[]) => {
-    await request(app)
+    const res = await request(app)
         .post('/api/tickets')
         .set('Cookie', cookie)
         .send({
@@ -11,4 +11,6 @@ export const createTicket = async (title: string, price: number, cookie: string[
             price
         })
         .expect(201);
+    
+    return res;
 };
