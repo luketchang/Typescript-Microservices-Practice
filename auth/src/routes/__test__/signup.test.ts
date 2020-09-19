@@ -11,6 +11,18 @@ it('returns 201 on successful signup', async () => {
         .expect(201);
 });
 
+it('sends back jwt in cookie on successful signup', async () => {
+    const res = await request(app)
+        .post('/api/users/sign-up')
+        .send({
+            email: 'test@test.com',
+            password: 'password'
+        })
+        .expect(201);
+    
+    expect(res.get('Set-Cookie')).toBeDefined();
+});
+
 it('returns 400 with invalid email', async () => {
     await request(app)
         .post('/api/users/sign-up')
@@ -65,16 +77,4 @@ it('disallows duplicate email usage', async () => {
             password: 'password'
         })
         .expect(400);
-});
-
-it('sends back jwt in cookie on successful signup', async () => {
-    const res = await request(app)
-        .post('/api/users/sign-up')
-        .send({
-            email: 'test@test.com',
-            password: 'password'
-        })
-        .expect(201);
-    
-    expect(res.get('Set-Cookie')).toBeDefined();
 });
