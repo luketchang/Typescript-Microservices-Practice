@@ -3,3 +3,6 @@
 ./common/node_modules
 ./nats-test/node_modules
 .vscode
+
+general_notes.txt
+process_notes.txt
