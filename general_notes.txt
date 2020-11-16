@@ -2,7 +2,8 @@ Kubernetes:
     - a deployment is responsible for keeping a set of pods running
     - a service is responsible for enabling internal or external network access 
     to a set of pods
-    - A cluster contains a set of nodes and each pod contains nodes
+    - A cluster contains a set of nodes and each node contains a set of pods
+    - a pod is the smallest deployable unit in Kubernetes and is one or a group of containers
     - Skaffold: handles CI and applies updates to src and infra files to cluster
     - skaffold uses our Dockerfile to figure out how to start app (which says run npm start)
 

@@ -147,3 +147,4 @@ Process
         - write necessary checks for ticket existence and user auth in PUT route
         - write checks for user requesting update to actually own the ticket + route implementation
         - write test to make sure ticket is updated if all inputs valid and respective PUT route implementation
+        - update ingress-srv.yaml to route traffic to tickets service
