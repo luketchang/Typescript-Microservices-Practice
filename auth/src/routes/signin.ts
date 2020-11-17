@@ -8,7 +8,8 @@ import { Password } from '../utils/password';
 
 const router = express.Router();
 
-router.post('/api/users/signin', 
+router.post(
+    '/api/users/signin', 
     [
         body('email')
             .isEmail()

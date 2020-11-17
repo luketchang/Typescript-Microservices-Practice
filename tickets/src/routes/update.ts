@@ -9,7 +9,8 @@ import { Ticket } from '../models/ticket';
 
 const router = express.Router();
 
-router.put('/api/tickets/:id', 
+router.put(
+    '/api/tickets/:id', 
     requireAuth,
     [
         body('title')

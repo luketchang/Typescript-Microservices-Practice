@@ -6,7 +6,8 @@ import { validateRequest, BadRequestError } from '@lt-ticketing/common';
 
 const router = express.Router();
 
-router.post('/api/users/signup', 
+router.post(
+    '/api/users/signup', 
     [
         body('email')
             .isEmail()

@@ -3,7 +3,8 @@ import { currentUser } from '@lt-ticketing/common';
 
 const router = express.Router();
 
-router.get('/api/users/currentuser', 
+router.get(
+    '/api/users/currentuser', 
     currentUser,
     (req, res) => {
         res.send({ currentUser: (req.currentUser || null) });
