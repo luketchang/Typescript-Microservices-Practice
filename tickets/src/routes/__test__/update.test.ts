@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { app } from '../../app';
 import { getAuthCookie } from '../../test/getAuthCookie';
 import { createTicket } from '../../test/createTicket';
+import { natsWrapper } from '../../nats-wrapper';
 
 it('returns 404 if provided ticket id does not exist', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -97,4 +98,23 @@ it('updates the ticket if all inputs valid', async () => {
     
     expect(getTicketRes.body.title).toEqual('new title');
     expect(getTicketRes.body.price).toEqual(200);
+});
+
+it('publishes a TicketUpdatedEvent', async () => {
+    const cookie = getAuthCookie();
+    const title = 'title';
+    const price = 100;
+
+    const res = await createTicket(title, price, cookie);
+
+    await request(app)
+        .put(`/api/tickets/${res.body.id}`)
+        .set('Cookie', cookie)
+        .send({
+            title: 'new title',
+            price: 200
+        })
+        .expect(200);
+    
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
