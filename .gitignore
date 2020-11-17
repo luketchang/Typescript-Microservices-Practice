@@ -4,5 +4,7 @@
 ./nats-test/node_modules
 .vscode
 
+./*/node_modules
+
 general_notes.txt
 process_notes.txt
