@@ -57,3 +57,5 @@ it('returns order object on success', async () => {
         .send({ ticketId: ticket.id })
         .expect(201);
 });
+
+it.todo('publishes an OrderCreated event');
