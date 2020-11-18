@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+import { TicketDoc } from './ticket';
 import { OrderStatus } from '@lt-ticketing/common'
 
 interface OrderAttrs {
