@@ -1,21 +1,26 @@
 import request from 'supertest';
 
 import { app } from '../../app';
+import { Order } from '../../models/order';
+import { OrderStatus } from '@lt-ticketing/common';
 import { createTicket } from '../../test/createTicket';
 import { createOrder } from '../../test/createOrder';
 import { getAuthCookie } from '../../test/getAuthCookie';
 
-it('fetches a particular order for a user', async () => {
+it('updates an order status to cancelled', async () => {
     const cookie = getAuthCookie();
     const ticket = await createTicket();
     const { body: order } = await createOrder(ticket, cookie);
 
-    const { body: fetchedOrder } = await request(app)
-        .get(`/api/orders/${order.id}`)
+    await request(app)
+        .delete(`/api/orders/${order.id}`)
         .set('Cookie', cookie)
-        .expect(200);
+        .send()
+        .expect(204);
 
-    expect(fetchedOrder.id).toEqual(order.id);
+    const cancelledOrder = await Order.findById(order.id);
+    expect(cancelledOrder!.id).toEqual(order.id);
+    expect(cancelledOrder!.status).toEqual(OrderStatus.Cancelled);
 });
 
 it('throws NotAuthorizedError if user does not own order', async () => {
@@ -25,7 +30,9 @@ it('throws NotAuthorizedError if user does not own order', async () => {
     const { body: order } = await createOrder(ticket, userOneCookie);
 
     await request(app)
-        .get(`/api/orders/${order.id}`)
+        .delete(`/api/orders/${order.id}`)
         .set('Cookie', userTwoCookie)
         .expect(401);
 });
+
+it.todo('published an OrderCancelled event');
