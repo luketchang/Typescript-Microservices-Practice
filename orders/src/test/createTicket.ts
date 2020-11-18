@@ -1,15 +1,10 @@
-import request from 'supertest';
-import { app } from '../app';
+import { Ticket } from '../models/ticket';
 
-export const createTicket = async (title: string, price: number, cookie: string[]) => {
-    const res = await request(app)
-        .post('/api/tickets')
-        .set('Cookie', cookie)
-        .send({
-            title,
-            price
-        })
-        .expect(201);
-    
-    return res;
-};
+export const createTicket = async () => {
+    const ticket = Ticket.build({
+        title: 'concert',
+        price: 20
+    });
+    await ticket.save();
+    return ticket;
+}

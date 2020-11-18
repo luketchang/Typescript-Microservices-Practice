@@ -8,7 +8,7 @@ import { getAuthCookie } from '../../test/getAuthCookie';
 import { OrderStatus } from '@lt-ticketing/common';
 
 it('returns NotFoundError if ticket does not exist', async () => {
-    const cookie = await getAuthCookie();
+    const cookie = getAuthCookie();
     const ticketId = mongoose.Types.ObjectId();
 
     const res =  await request(app)

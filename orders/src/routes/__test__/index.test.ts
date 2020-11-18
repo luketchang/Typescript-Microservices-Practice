@@ -1,28 +1,9 @@
 import request from 'supertest';
 
 import { app } from '../../app';
-import { Ticket, TicketDoc } from '../../models/ticket';
-import { Order } from '../../models/order';
+import { createTicket } from '../../test/createTicket';
+import { createOrder } from '../../test/createOrder';
 import { getAuthCookie } from '../../test/getAuthCookie';
-
-const createTicket = async () => {
-    const ticket = Ticket.build({
-        title: 'concert',
-        price: 20
-    });
-    await ticket.save();
-    return ticket;
-}
-
-const createOrder = async (ticket: TicketDoc, cookie: string[]) => {
-    const res = await request(app)
-        .post('/api/orders')
-        .set('Cookie', cookie)
-        .send({ ticketId: ticket.id })
-        .expect(201);
-    
-    return res;
-}
 
 it('fetches an order for a particular user', async () => {
     const userOneCookie = getAuthCookie();
