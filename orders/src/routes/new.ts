@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
-import { requireAuth, validateRequest } from '@lt-ticketing/common';
 import { body } from 'express-validator';
+
+import { Ticket } from '../models/ticket';
+import { Order } from '../models/order';
+import { requireAuth, validateRequest, NotFoundError, OrderStatus, BadRequestError } from '@lt-ticketing/common';
 
 const router = express.Router();
 
@@ -17,7 +20,14 @@ router.post(
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-    res.send({});
-});
+        const { ticketId } = req.body;
+        const ticket = await Ticket.findById(ticketId);
+        if(!ticket) throw new NotFoundError();
+
+        const isReserved = await ticket.isReserved();
+        if(isReserved) throw new BadRequestError("Ticket already reserved.");
+
+    }
+);
 
 export { router as newOrderRouter };
