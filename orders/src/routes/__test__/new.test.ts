@@ -6,6 +6,9 @@ import { Ticket } from '../../models/ticket';
 import { Order } from '../../models/order';
 import { getAuthCookie } from '../../test/getAuthCookie';
 import { OrderStatus } from '@lt-ticketing/common';
+import { natsWrapper } from '../../nats-wrapper';
+
+jest.mock('../../nats-wrapper');
 
 it('returns NotFoundError if ticket does not exist', async () => {
     const cookie = getAuthCookie();
@@ -58,4 +61,20 @@ it('returns order object on success', async () => {
         .expect(201);
 });
 
-it.todo('publishes an OrderCreated event');
+it('publishes an OrderCreated event', async () => {
+    const cookie = getAuthCookie();
+
+    const ticket = Ticket.build({
+        title: 'concert',
+        price: 20
+    });
+    await ticket.save();
+
+    const res = await request(app)
+        .post('/api/orders')
+        .set('Cookie', cookie)
+        .send({ ticketId: ticket.id })
+        .expect(201);
+
+    expect(natsWrapper.client.publish).toBeCalledTimes(1);
+});

@@ -6,6 +6,9 @@ import { OrderStatus } from '@lt-ticketing/common';
 import { createTicket } from '../../test/createTicket';
 import { createOrder } from '../../test/createOrder';
 import { getAuthCookie } from '../../test/getAuthCookie';
+import { natsWrapper } from '../../nats-wrapper';
+
+jest.mock('../../nats-wrapper');
 
 it('updates an order status to cancelled', async () => {
     const cookie = getAuthCookie();
@@ -35,4 +38,16 @@ it('throws NotAuthorizedError if user does not own order', async () => {
         .expect(401);
 });
 
-it.todo('published an OrderCancelled event');
+it('publishes an OrderCancelled event', async () => {
+    const cookie = getAuthCookie();
+    const ticket = await createTicket();
+    const { body: order } = await createOrder(ticket, cookie);
+
+    await request(app)
+        .delete(`/api/orders/${order.id}`)
+        .set('Cookie', cookie)
+        .send()
+        .expect(204);
+
+    expect(natsWrapper.client.publish).toBeCalledTimes(2);
+});
