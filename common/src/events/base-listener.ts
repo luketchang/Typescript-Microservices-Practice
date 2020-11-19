@@ -5,7 +5,7 @@ import { Event } from './base-event';
 export abstract class Listener<T extends Event> {
     abstract subject: T['subject'];
     abstract queueGroupName: string;
-    abstract onMessage(parsedData: T['data'], msg: Message): void;
+    abstract onMessage(data: T['data'], msg: Message): void;
     private client: Stan;
     protected ackWait = 5 * 1000;
   
