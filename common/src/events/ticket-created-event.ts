@@ -9,5 +9,5 @@ export interface TicketCreatedEvent extends Event {
         price: number;
         userId: string;
         version: number;
-    }
+    };
 }

@@ -11,8 +11,8 @@ export interface OrderCreatedEvent extends Event {
         expiresAt: string;
         version: number;
         ticket: {
-            id: string,
-            price: number
+            id: string;
+            price: number;
         };
-    }
+    };
 }
