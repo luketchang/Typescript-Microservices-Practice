@@ -25,6 +25,7 @@ it('returns BadRequestError if ticket is already reserved', async () => {
     const cookie = getAuthCookie();
 
     const ticket = Ticket.build({
+        id: mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
         price: 20
     });
@@ -49,6 +50,7 @@ it('returns order object on success', async () => {
     const cookie = getAuthCookie();
 
     const ticket = Ticket.build({
+        id: mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
         price: 20
     });
@@ -65,6 +67,7 @@ it('publishes an OrderCreated event', async () => {
     const cookie = getAuthCookie();
 
     const ticket = Ticket.build({
+        id: mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
         price: 20
     });
