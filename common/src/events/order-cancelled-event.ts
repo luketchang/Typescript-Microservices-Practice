@@ -5,9 +5,10 @@ import { OrderStatus } from './types/order-status';
 export interface OrderCancelledEvent extends Event {
     subject: Subject;
     data: {
-        id: string,
+        id: string;
+        version: number;
         ticket: {
             id: string
-        }
+        };
     }
 }
