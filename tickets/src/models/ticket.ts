@@ -32,6 +32,9 @@ const ticketSchema = new Schema(
         userId: {
             type: String,
             required: true
+        },
+        orderId: {
+            type: String
         }
     }, {
         toJSON: {

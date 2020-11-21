@@ -12,6 +12,8 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
         ticket.set({ orderId: data.id });
         await ticket.save();
+
+        //emit ticket updated event
         
         msg.ack();
     }
