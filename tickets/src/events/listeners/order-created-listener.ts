@@ -1,6 +1,7 @@
 import { Message } from 'node-nats-streaming';
 import { Listener, NotFoundError, OrderCreatedEvent, QueueGroupName, Subject } from '@lt-ticketing/common';
 import { Ticket } from '../../models/ticket';
+import { TicketUpdatedPublisher } from '../publishers/ticket-updated-publisher';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     subject: Subject.OrderCreated = Subject.OrderCreated;
@@ -13,7 +14,14 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
         ticket.set({ orderId: data.id });
         await ticket.save();
 
-        //emit ticket updated event
+        await new TicketUpdatedPublisher(this.client).publish({
+            id: ticket.id,
+            title: ticket.title,
+            price: ticket.price,
+            userId: ticket.userId,
+            version: ticket.version,
+            orderId: ticket.orderId
+        })
         
         msg.ack();
     }

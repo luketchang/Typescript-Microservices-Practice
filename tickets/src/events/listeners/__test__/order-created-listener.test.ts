@@ -4,6 +4,7 @@ import mongoose, { mongo } from 'mongoose';
 import { Ticket } from '../../../models/ticket';
 import { OrderCreatedEvent, OrderStatus } from '@lt-ticketing/common';
 import { OrderCreatedListener } from '../order-created-listener';
+import { updateTicketRouter } from '../../../routes/update';
 
 const setup = async () => {
     const listener = new OrderCreatedListener(natsWrapper.client);
@@ -49,4 +50,17 @@ it('acks the message', async () => {
 
     await listener.onMessage(data, msg);
     expect(msg.ack).toHaveBeenCalled();
-})
+});
+
+it('publishes a TicketUpdatedEvent to update version #s', async () => {
+    const { listener, data, msg } = await setup();
+
+    await listener.onMessage(data, msg);
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+
+    const updatedTicketData = JSON.parse(
+        (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
+    );
+    expect(updatedTicketData.orderId).toEqual(data.id);
+    // console.log(updatedTicketData);
+});
