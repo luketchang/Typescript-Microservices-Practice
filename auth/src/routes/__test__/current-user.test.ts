@@ -7,7 +7,7 @@ it('responds with current user details if authenticated', async () => {
     const cookie = await getAuthCookie();
 
     const res = await request(app)
-        .get('/api/users/current-user')
+        .get('/api/users/currentuser')
         .set('Cookie', cookie)
         .send({
             email: 'test@test.com',
@@ -20,7 +20,7 @@ it('responds with current user details if authenticated', async () => {
 
 it('responds with null current user if not authenticated', async () => {
     const res = await request(app)
-        .get('/api/users/current-user')
+        .get('/api/users/currentuser')
         .send({})
         .expect(200);
 
