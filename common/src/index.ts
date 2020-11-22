@@ -20,3 +20,4 @@ export * from  './events/order-created-event';
 export * from  './events/order-cancelled-event';
 export * from './events/types/order-status';
 export * from './events/types/queue-group-names';
+export * from './events/expiration-complete-event';
