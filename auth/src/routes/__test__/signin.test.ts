@@ -3,7 +3,7 @@ import { app } from '../../app';
 
 it('fails when email supplied does not exist', async () => {
     await request(app)
-        .post('/api/users/sign-in')
+        .post('/api/users/signin')
         .send({
             email: 'test@test.com',
             password: 'password'
@@ -13,7 +13,7 @@ it('fails when email supplied does not exist', async () => {
 
 it('fails when incorrect password is supplied', async () => {
     await request(app)
-        .post('/api/users/sign-up')
+        .post('/api/users/signup')
         .send({
             email: 'test@test.com',
             password: 'password'
@@ -21,7 +21,7 @@ it('fails when incorrect password is supplied', async () => {
         .expect(201);
     
     await request(app)
-        .post('/api/users/sign-in')
+        .post('/api/users/signin')
         .send({
             email: 'test@test.com',
             password: 'incorrect_password'
@@ -31,7 +31,7 @@ it('fails when incorrect password is supplied', async () => {
 
 it('sends back cookie if credentials are valid', async () => {
     const res = await request(app)
-        .post('/api/users/sign-up')
+        .post('/api/users/signup')
         .send({
             email: 'test@test.com',
             password: 'password'
@@ -39,7 +39,7 @@ it('sends back cookie if credentials are valid', async () => {
         .expect(201);
     
     await request(app)
-        .post('/api/users/sign-in')
+        .post('/api/users/signin')
         .send({
             email: 'test@test.com',
             password: 'password'

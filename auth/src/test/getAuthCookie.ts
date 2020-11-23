@@ -7,7 +7,7 @@ export const getAuthCookie = async () => {
     const password = 'password';
 
     const res = await request(app)
-        .post('/api/users/sign-up')
+        .post('/api/users/signup')
         .send({
             email,
             password
