@@ -8,7 +8,7 @@ import { requireAuth, validateRequest, NotFoundError, OrderStatus, BadRequestErr
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
-const EXP_TIME_SEC = 1 * 60;
+const EXP_TIME_SEC = 1 * 10;
 const router = express.Router();
 
 router.post(
