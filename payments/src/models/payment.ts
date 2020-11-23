@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface PaymentAttrs {
     orderId: string;
@@ -33,14 +32,8 @@ const paymentSchema = new mongoose.Schema({
     }
 });
 
-paymentSchema.set('versionKey', 'version');
-paymentSchema.plugin(updateIfCurrentPlugin);
-
 paymentSchema.statics.build = (attrs: PaymentAttrs) => {
-    return new Payment({
-        orderId: attrs.orderId,
-        stripeId: attrs.stripeId
-    });
+    return new Payment(attrs);
 }
 
 const Payment = mongoose.model<PaymentDoc, PaymentModel>('Payment', paymentSchema);
