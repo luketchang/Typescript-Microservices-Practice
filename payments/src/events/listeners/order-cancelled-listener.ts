@@ -3,7 +3,7 @@ import { Listener, OrderCancelledEvent, OrderStatus, QueueGroupName, Subject } f
 import { Order } from '../../models/order';
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
-    subject: Subject.OrderCreated = Subject.OrderCreated;
+    subject: Subject.OrderCancelled = Subject.OrderCancelled;
     queueGroupName = QueueGroupName.PaymentsService;
 
     async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
