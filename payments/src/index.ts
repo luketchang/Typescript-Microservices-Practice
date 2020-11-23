@@ -1,15 +1,14 @@
 import mongoose from 'mongoose';
 
 import { app } from './app';
+import { OrderCreatedListener } from './events/listeners/order-created-listener';
+import { OrderCancelledListener } from './events/listeners/order-cancelled-listener';
+
 import { natsWrapper } from './nats-wrapper';
-import { TicketCreatedListener } from './events/listeners/ticket-created-listener';
-import { TicketUpdatedListener } from './events/listeners/ticket-updated-listener';
-import { ExpirationCompleteListener } from './events/listeners/expiration-complete-listener';
-import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 
 const start = async () => {
     if(!process.env.JWT_KEY) throw new Error('JWT_KEY not defined.');
-    if(!process.env.ORDERS_MONGO_URI) throw new Error('TICKETS_MONGO_URI not defined.')
+    if(!process.env.PAYMENTS_MONGO_URI) throw new Error('TICKETS_MONGO_URI not defined.')
     if(!process.env.NATS_CLIENT_ID) throw new Error('NATS_CLIENT_ID not defined.');
     if(!process.env.NATS_CLUSTER_ID) throw new Error('NATS_CLUSTER_ID not defined.');
     if(!process.env.NATS_URL) throw new Error('NATS_URL not defined.');
@@ -28,12 +27,10 @@ const start = async () => {
         process.on('SIGINT', () => natsWrapper.client.close());
         process.on('SIGTERM', () => natsWrapper.client.close());
 
-        new TicketCreatedListener(natsWrapper.client).listen();
-        new TicketUpdatedListener(natsWrapper.client).listen();
-        new ExpirationCompleteListener(natsWrapper.client).listen();
-        new PaymentCreatedListener(natsWrapper.client).listen();
+        new OrderCreatedListener(natsWrapper.client).listen();
+        new OrderCancelledListener(natsWrapper.client).listen();
 
-        await mongoose.connect(process.env.ORDERS_MONGO_URI, {
+        await mongoose.connect(process.env.PAYMENTS_MONGO_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
