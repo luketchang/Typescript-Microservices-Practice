@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
-export const getAuthCookie = () => {
-    const id = mongoose.Types.ObjectId().toHexString();
+export const getAuthCookie = (id: string) => {
     const password = 'password';
     const payload = {
         id,
