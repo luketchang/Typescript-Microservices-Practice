@@ -3,7 +3,7 @@ import { Subject, QueueGroupName, ExpirationCompleteEvent, Listener, OrderStatus
 import { OrderCancelledPublisher } from '../publishers/order-cancelled-publisher';
 import { Order } from '../../models/order';
 
-export class TicketCreatedListener extends Listener<ExpirationCompleteEvent> {
+export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
     subject: Subject.ExpirationComplete = Subject.ExpirationComplete;
     queueGroupName = QueueGroupName.OrdersService;
 
@@ -24,7 +24,7 @@ export class TicketCreatedListener extends Listener<ExpirationCompleteEvent> {
                 id: order.ticket.id
             }
         });
-        
+
         msg.ack();
     }
 }
