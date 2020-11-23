@@ -8,6 +8,8 @@ import {
     NotAuthorizedError,
     OrderStatus
 } from '@lt-ticketing/common';
+import { natsWrapper } from '../nats-wrapper';
+import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { stripe } from '../stripe';
@@ -53,7 +55,13 @@ router.post(
         });
         await payment.save();
 
-        res.status(201).send({ success: true });
+        await new PaymentCreatedPublisher(natsWrapper.client).publish({
+            id: payment.id,
+            orderId: payment.orderId,
+            stripeId: payment.stripeId
+        })
+
+        res.status(201).send(payment);
     }
 );
 

@@ -6,6 +6,7 @@ import { Order } from '../../models/order';
 import { getAuthCookie } from '../../test/getAuthCookie';
 import { OrderStatus } from '@lt-ticketing/common';
 import { Payment } from '../../models/payment';
+import { natsWrapper } from '../../nats-wrapper';
 
 jest.mock('../../stripe');
 
@@ -98,4 +99,29 @@ it('returns a 201 (created) with valid inputs', async () => {
 
     const payment = await Payment.findOne({ orderId: order.id });
     expect(payment).toBeDefined();
+});
+
+it('emits a PaymentCreated event', async () => {
+    const userId = mongoose.Types.ObjectId().toHexString();
+
+    const order = Order.build({
+        id: mongoose.Types.ObjectId().toHexString(),
+        price: 20,
+        userId,
+        status: OrderStatus.Created,
+        version: 0
+    });
+    await order.save();
+
+    const cookie = getAuthCookie(userId);
+    await request(app)
+        .post('/api/payments')
+        .set('Cookie', cookie)
+        .send({
+            orderId: order.id,
+            token: 'tok_visa'
+        })
+        .expect(201);
+    
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
