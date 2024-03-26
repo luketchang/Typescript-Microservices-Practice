@@ -15,6 +15,10 @@ spec:
             containers:
                 - name: client
                   image: us.gcr.io/ticketing-dev-418316/client
+                  env:
+                    - name: NODE_OPTIONS
+                      value: "--openssl-legacy-provider"
+
                   
 ---
 apiVersion: v1

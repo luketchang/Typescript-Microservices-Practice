@@ -10,7 +10,7 @@ const AppComponent = ({ Component, currentUser, pageProps }) => {
             <Component {...pageProps}/>
         </div>
     );
-};
+}; 
 
 AppComponent.getInitialProps = async appContext => {
     const client = buildClient(appContext.ctx);
