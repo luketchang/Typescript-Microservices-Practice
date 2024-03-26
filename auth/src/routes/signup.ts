@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator';
 import { User } from '../models/user';
 import jwt from 'jsonwebtoken';
 import { validateRequest, BadRequestError } from '@lt-ticketing/common';
+import { logger } from '../logger'; 
 
 const router = express.Router();
 
@@ -19,17 +20,20 @@ router.post(
     ], 
     validateRequest,
     async (req: Request, res: Response) => {
+        logger.info('Received sign up request', { requestBody: req.body });
 
         const { email, password } = req.body;
 
         const userExists = await User.findOne({ email });
         if(userExists) {
+            logger.warn('Email already in use', { email });
             throw new BadRequestError('Email already in use.')
         }
 
         const newUser = User.build({ email, password });
         await newUser.save();
 
+        logger.info('User created', { userId: newUser.id });
         const userJwt = jwt.sign(
             {
                 id: newUser.id,
@@ -42,6 +46,7 @@ router.post(
             jwt: userJwt
         };
 
+        logger.info('User signed up', { userId: newUser.id });
         res.status(201).send(newUser);
     }
 );
