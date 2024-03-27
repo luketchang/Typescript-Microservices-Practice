@@ -1,5 +1,6 @@
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 import { natsWrapper } from './nats-wrapper';
+import { logger } from './logger';
 
 const start = async () => {
     if(!process.env.NATS_CLIENT_ID) throw new Error('NATS_CLIENT_ID not defined.');
@@ -12,9 +13,11 @@ const start = async () => {
             process.env.NATS_CLIENT_ID, 
             process.env.NATS_URL
         );
+
+        logger.info('Connected to NATS', { clientId: process.env.NATS_CLIENT_ID, clusterId: process.env.NATS_CLUSTER_ID, url: process.env.NATS_URL });
         
         natsWrapper.client.on('close', () => {
-            console.log('NATS connection closed!');
+            logger.warn('NATS connection closed!');
             process.exit();
         });
         process.on('SIGINT', () => natsWrapper.client.close());
@@ -22,7 +25,7 @@ const start = async () => {
 
         new OrderCreatedListener(natsWrapper.client).listen();
     } catch(err) {
-        console.error(err);
+        logger.error('Error starting the application', { error: err });
     }
 }
 

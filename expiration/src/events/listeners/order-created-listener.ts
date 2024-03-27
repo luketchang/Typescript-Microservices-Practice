@@ -1,6 +1,7 @@
 import { Message } from 'node-nats-streaming';
 import { Listener, OrderCreatedEvent, QueueGroupName, Subject } from '@lt-ticketing/common';
 import { expirationQueue } from '../../queues/expiration-queue';
+import { logger } from '../../logger';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     subject: Subject.OrderCreated = Subject.OrderCreated;
@@ -8,8 +9,8 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
     async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
         const delay = new Date(data.expiresAt).getTime() - new Date().getTime();
-        console.log("Order expires in", delay, "milliseconds.");
 
+        logger.info("Order expires in milliseconds.", { delay, orderId: data.id });
         await expirationQueue.add(
             {
                 orderId: data.id
@@ -19,6 +20,10 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
             }
         );
 
+        logger.info("Order added to expiration queue", { orderId: data.id });
+
         msg.ack();
+        
+        logger.info("Message acknowledged", { orderId: data.id });
     }
 }
