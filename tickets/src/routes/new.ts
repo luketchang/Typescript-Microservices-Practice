@@ -5,6 +5,7 @@ import { requireAuth, validateRequest } from '@lt-ticketing/common';
 import { natsWrapper } from '../nats-wrapper';
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
 import { Ticket } from '../models/ticket';
+import { logger } from '../logger';
 
 const router = express.Router();
 
@@ -24,6 +25,8 @@ router.post(
     async (req: Request, res: Response) => {
         const { title, price } = req.body;
 
+        logger.info('Received ticket creation request', { title, price, userId: req.currentUser!.id });
+
         const ticket = Ticket.build({
             title,
             price,
@@ -31,6 +34,9 @@ router.post(
         });
 
         await ticket.save();
+
+        logger.info('Ticket created', { ticketId: ticket.id, title: ticket.title, price: ticket.price, userId: ticket.userId, version: ticket.version });
+
         await new TicketCreatedPublisher(natsWrapper.client).publish({
             id: ticket.id,
             title: ticket.title,
@@ -38,7 +44,9 @@ router.post(
             userId: ticket.userId,
             version: ticket.version
         });
-        
+
+        logger.info('Ticket created event published', { ticketId: ticket.id });
+
         res.status(201).send(ticket);
     }
 );
