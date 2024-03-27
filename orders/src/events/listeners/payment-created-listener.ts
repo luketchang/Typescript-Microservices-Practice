@@ -24,5 +24,7 @@ export class PaymentCreatedListener extends Listener<PaymentCreatedEvent> {
         //TODO: add OrderUpdatedEvent to tell other services to update orders
 
         msg.ack();
+
+        logger.info('Payment created event acknowledged', { orderId: order.id });
     }
 }

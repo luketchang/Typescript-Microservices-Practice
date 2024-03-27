@@ -1,7 +1,7 @@
 import { Message } from 'node-nats-streaming';
 import { Subject, QueueGroupName, TicketUpdatedEvent, Listener } from '@lt-ticketing/common';
 import { Ticket } from '../../models/ticket';
-import { logger } from '../../logger'; // import the logger
+import { logger } from '../../logger';
 
 export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     subject: Subject.TicketUpdated = Subject.TicketUpdated;
@@ -22,5 +22,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
         logger.info('Ticket updated', { ticketId: ticket.id, title: ticket.title, price: ticket.price });
 
         msg.ack();
+
+        logger.info('Ticket updated event acknowledged', { ticketId: ticket.id });
     }
 }

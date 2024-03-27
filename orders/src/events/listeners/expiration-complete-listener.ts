@@ -19,7 +19,10 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
 
         if(order.status === OrderStatus.Complete) {
             logger.info('Order already completed', { orderId: order.id });
-            return msg.ack();
+            msg.ack();
+            
+            logger.info('Expiration complete event acknowledged', { orderId: order.id });
+            return;
         }
 
         order.set({ status: OrderStatus.Cancelled });
@@ -38,5 +41,7 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
         logger.info('Order cancellation published', { orderId: order.id });
 
         msg.ack();
+
+        logger.info('Expiration complete event acknowledged', { orderId: order.id });
     }
 }

@@ -25,6 +25,6 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
         msg.ack();
         
-        logger.info("Message acknowledged", { orderId: data.id });
+        logger.info("Order created event acknowledged", { orderId: data.id });
     }
 }

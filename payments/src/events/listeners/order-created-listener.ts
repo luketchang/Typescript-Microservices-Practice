@@ -1,6 +1,7 @@
 import { Message } from 'node-nats-streaming';
 import { Listener, OrderCreatedEvent, QueueGroupName, Subject } from '@lt-ticketing/common';
 import { Order } from '../../models/order';
+import { logger } from '../../logger';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     subject: Subject.OrderCreated = Subject.OrderCreated;
@@ -16,6 +17,10 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
         });
         await order.save();
 
+        logger.info('Order created', { orderId: order.id, userId: order.userId, price: order.price, status: order.status, version: order.version });
+
         msg.ack();
+
+        logger.info('Order created event acknowledged', { orderId: order.id });
     }
 }

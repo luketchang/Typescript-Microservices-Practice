@@ -16,5 +16,7 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
         logger.info('Ticket created', { ticketId: ticket.id });
 
         msg.ack();
+
+        logger.info('Ticket created event acknowledged', { ticketId: ticket.id });
     }
 }

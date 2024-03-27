@@ -13,6 +13,7 @@ import { PaymentCreatedPublisher } from '../events/publishers/payment-created-pu
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
 import { stripe } from '../stripe';
+import { logger } from '../logger';
 
 const router = express.Router();
 
@@ -34,12 +35,15 @@ router.post(
         const order = await Order.findById(orderId);
 
         if(!order) {
+            logger.warn('Order not found', { orderId: orderId });
             throw new NotFoundError();
         }
         if(order.userId !== req.currentUser!.id) {
+            logger.warn('Not authorized', { orderId: orderId, userId: req.currentUser!.id });
             throw new NotAuthorizedError();
         }
         if(order.status === OrderStatus.Cancelled) {
+            logger.warn('Cannot pay for cancelled order', { orderId: orderId });
             throw new BadRequestError('Cannot pay for cancelled order.')
         }
 
@@ -55,11 +59,15 @@ router.post(
         });
         await payment.save();
 
+        logger.info('Payment created', { paymentId: payment.id, orderId: payment.orderId, stripeId: payment.stripeId });
+
         await new PaymentCreatedPublisher(natsWrapper.client).publish({
             id: payment.id,
             orderId: payment.orderId,
             stripeId: payment.stripeId
         })
+
+        logger.info('Payment published', { paymentId: payment.id });
 
         res.status(201).send(payment);
     }

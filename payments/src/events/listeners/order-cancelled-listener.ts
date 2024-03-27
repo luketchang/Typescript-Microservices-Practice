@@ -1,6 +1,7 @@
 import { Message } from 'node-nats-streaming';
 import { Listener, OrderCancelledEvent, OrderStatus, QueueGroupName, Subject } from '@lt-ticketing/common';
 import { Order } from '../../models/order';
+import { logger } from '../../logger';
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
     subject: Subject.OrderCancelled = Subject.OrderCancelled;
@@ -13,12 +14,17 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
          });
 
          if(!order) {
+             logger.warn('Order not found', { orderId: data.id });
              throw new Error('Order not found.')
          }
 
         order.set({ status: OrderStatus.Cancelled });
-        await order.save()
+        await order.save();
+
+        logger.info('Order cancelled', { orderId: order.id });
 
         msg.ack();
+
+        logger.info('Order cancelled event acknowledged', { orderId: order.id });
     }
 }
