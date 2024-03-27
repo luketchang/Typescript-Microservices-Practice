@@ -32,6 +32,7 @@ router.post(
     async (req: Request, res: Response) => {
         const { token, orderId } = req.body;
 
+        logger.info('Received payment creation request', { orderId, userId: req.currentUser?.id });
         const order = await Order.findById(orderId);
 
         if(!order) {
@@ -39,7 +40,7 @@ router.post(
             throw new NotFoundError();
         }
         if(order.userId !== req.currentUser!.id) {
-            logger.warn('Not authorized', { orderId: orderId, userId: req.currentUser!.id });
+            logger.warn('Not authorized', { orderId: orderId, userId: req.currentUser?.id });
             throw new NotAuthorizedError();
         }
         if(order.status === OrderStatus.Cancelled) {
@@ -67,7 +68,7 @@ router.post(
             stripeId: payment.stripeId
         })
 
-        logger.info('Payment published', { paymentId: payment.id });
+        logger.info('Payment created event published', { paymentId: payment.id });
 
         res.status(201).send(payment);
     }

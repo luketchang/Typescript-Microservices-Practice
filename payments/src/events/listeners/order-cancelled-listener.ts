@@ -8,6 +8,8 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
     queueGroupName = QueueGroupName.PaymentsService;
 
     async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
+        logger.info('Order cancelled event received', { orderId: data.id });
+        
         const order = await Order.findOne({
             _id: data.id,
             version: data.version - 1
