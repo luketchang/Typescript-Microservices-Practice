@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import { User } from '../models/user';
 import jwt from 'jsonwebtoken';
 import { validateRequest, BadRequestError } from '@lt-ticketing/common';
@@ -20,9 +20,9 @@ router.post(
     ], 
     validateRequest,
     async (req: Request, res: Response) => {
-        logger.info('Received sign up request', { requestBody: req.body });
-
         const { email, password } = req.body;
+        
+        logger.info('Received sign up request', { email });
 
         const userExists = await User.findOne({ email });
         if(userExists) {
