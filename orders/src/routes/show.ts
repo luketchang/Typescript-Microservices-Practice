@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
-
 import { NotAuthorizedError, NotFoundError, requireAuth } from '@lt-ticketing/common';
 import { Order } from '../models/order';
+import { logger } from '../logger';
 
 const router = express.Router();
 
@@ -10,10 +10,21 @@ router.get(
     requireAuth,
     async (req: Request, res: Response) => {
         const { orderId } = req.params;
+        logger.info('Received order retrieval request', { orderId, userId: req.currentUser!.id });
+
         const order = await Order.findById(orderId).populate('ticket');
 
-        if(!order) throw new NotFoundError();
-        if(order.userId !== req.currentUser!.id) throw new NotAuthorizedError();
+        if(!order) {
+            logger.warn('Order not found', { orderId });
+            throw new NotFoundError();
+        }
+        if(order.userId !== req.currentUser!.id) {
+            logger.warn('Not authorized to view order', { orderId, userId: req.currentUser!.id });
+            throw new NotAuthorizedError();
+        }
+
+        logger.info('Order retrieved', { orderId });
+
         res.send(order);
     }
 );

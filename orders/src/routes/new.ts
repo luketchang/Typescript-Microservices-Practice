@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-
 import { Ticket } from '../models/ticket';
 import { Order } from '../models/order';
 import { requireAuth, validateRequest, NotFoundError, OrderStatus, BadRequestError } from '@lt-ticketing/common';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
+import { logger } from '../logger';
 
 const EXP_TIME_SEC = 1 * 30;
 const router = express.Router();
@@ -24,11 +24,19 @@ router.post(
     validateRequest,
     async (req: Request, res: Response) => {
         const { ticketId } = req.body;
+        logger.info('Received order creation request', { ticketId, userId: req.currentUser!.id });
+
         const ticket = await Ticket.findById(ticketId);
-        if(!ticket) throw new NotFoundError();
+        if(!ticket) {
+            logger.warn('Ticket not found', { ticketId });
+            throw new NotFoundError();
+        }
 
         const isReserved = await ticket.isReserved();
-        if(isReserved) throw new BadRequestError("Ticket already reserved.");
+        if(isReserved) {
+            logger.warn('Ticket already reserved', { ticketId });
+            throw new BadRequestError("Ticket already reserved.");
+        }
 
         const expirationTime = new Date();
         expirationTime.setSeconds(expirationTime.getSeconds() + EXP_TIME_SEC);
@@ -41,6 +49,8 @@ router.post(
         });
         await order.save();
 
+        logger.info('Order created', { orderId: order.id });
+
         new OrderCreatedPublisher(natsWrapper.client).publish({
             id: order.id,
             status: order.status,
@@ -52,6 +62,8 @@ router.post(
                 price: ticket.price
             }
         });
+
+        logger.info('Order creation published', { orderId: order.id });
 
         res.status(201).send(order);
     }
