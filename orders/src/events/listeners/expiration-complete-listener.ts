@@ -9,26 +9,26 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
     queueGroupName = QueueGroupName.OrdersService;
 
     async onMessage(data: ExpirationCompleteEvent['data'], msg: Message) {
-        logger.info('Expiration complete event received', { orderId: data.orderId });
+        logger.info('Expiration complete event received', { data });
         const order  = await Order.findById(data.orderId).populate('ticket');
 
         if(!order) {
-            logger.warn('Order not found', { orderId: data.orderId });
+            logger.warn('Order not found', { data });
             throw new Error('Order not found.');
         }
 
         if(order.status === OrderStatus.Complete) {
-            logger.info('Order already completed', { orderId: order.id });
+            logger.info('Order already completed', { data });
             msg.ack();
-            
-            logger.info('Expiration complete event acknowledged', { orderId: order.id });
+
+            logger.info('Expiration complete event acknowledged', { data });
             return;
         }
 
         order.set({ status: OrderStatus.Cancelled });
         await order.save();
 
-        logger.info('Order cancelled', { orderId: order.id });
+        logger.info('Order cancelled', { data });
 
         await new OrderCancelledPublisher(this.client).publish({
             id: order.id,
@@ -38,10 +38,10 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
             }
         });
 
-        logger.info('Order cancellation published', { orderId: order.id });
+        logger.info('Order cancellation published', { data });
 
         msg.ack();
 
-        logger.info('Expiration complete event acknowledged', { orderId: order.id });
+        logger.info('Expiration complete event acknowledged', { data });
     }
 }

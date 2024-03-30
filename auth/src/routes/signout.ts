@@ -5,10 +5,12 @@ const router = express.Router();
 
 router.post('/api/users/signout', (req, res) => {
     const sessionId = req.session?.id;
-    logger.info('Received sign out request', { sessionId });
+    const sessionEmail = req.session?.email;
+
+    logger.info('Received sign out request', { sessionEmail, sessionId });
     req.session = null;
     
-    logger.info('User signed out', { sessionId });
+    logger.info('User signed out', { sessionEmail, sessionId });
     res.send('Signed out.');
 });
 

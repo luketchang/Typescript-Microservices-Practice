@@ -33,7 +33,7 @@ router.post(
         const newUser = User.build({ email, password });
         await newUser.save();
 
-        logger.info('User created', { userId: newUser.id });
+        logger.info('User created', { email, userId: newUser.id });
         const userJwt = jwt.sign(
             {
                 id: newUser.id,
@@ -46,7 +46,7 @@ router.post(
             jwt: userJwt
         };
 
-        logger.info('User signed up', { userId: newUser.id });
+        logger.info('User signed up', { email, userId: newUser.id });
         res.status(201).send(newUser);
     }
 );

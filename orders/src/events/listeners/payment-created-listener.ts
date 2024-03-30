@@ -8,23 +8,23 @@ export class PaymentCreatedListener extends Listener<PaymentCreatedEvent> {
     queueGroupName = QueueGroupName.OrdersService;
 
     async onMessage(data: PaymentCreatedEvent['data'], msg: Message) {
-        logger.info('Payment created event received', { orderId: data.orderId });
+        logger.info('Payment created event received', { data });
         const order = await Order.findById(data.orderId);
 
         if(!order) {
-            logger.warn('Order not found', { orderId: data.orderId });
+            logger.warn('Order not found', { data });
             throw new Error('Order not found.')
         }
 
         order.set({ status: OrderStatus.Complete });
         await order.save();
 
-        logger.info('Order completed', { orderId: order.id });
+        logger.info('Order completed', { data });
 
         //TODO: add OrderUpdatedEvent to tell other services to update orders
 
         msg.ack();
 
-        logger.info('Payment created event acknowledged', { orderId: order.id });
+        logger.info('Payment created event acknowledged', { data });
     }
 }

@@ -7,11 +7,11 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     subject: Subject.OrderCreated = Subject.OrderCreated;
     queueGroupName = QueueGroupName.ExpirationService;
 
-    async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
-        logger.info("Order created event received", { orderId: data.id });
+    async onMessage(data: OrderCreatedEvent['data'], msg: Message) {        
+        logger.info("Order created event received", { data });
         const delay = new Date(data.expiresAt).getTime() - new Date().getTime();
 
-        logger.info("Order expires in milliseconds.", { delay, orderId: data.id });
+        logger.info("Order expires in milliseconds.", { delay, data });
         await expirationQueue.add(
             {
                 orderId: data.id
@@ -21,10 +21,10 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
             }
         );
 
-        logger.info("Order added to expiration queue", { orderId: data.id });
+        logger.info("Order added to expiration queue", { data });
 
         msg.ack();
         
-        logger.info("Order created event acknowledged", { orderId: data.id });
+        logger.info("Order created event acknowledged", { data });
     }
 }

@@ -8,10 +8,10 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     queueGroupName = QueueGroupName.OrdersService;
 
     async onMessage(data: TicketUpdatedEvent['data'], msg: Message) {
-        logger.info('Ticket updated event received', { ticketId: data.id });
+        logger.info('Ticket updated event received', { data });
         const ticket = await Ticket.findByEvent(data);
         if(!ticket) {
-            logger.warn('Ticket not found', { ticketId: data.id });
+            logger.warn('Ticket not found', { data });
             throw new Error('Ticket not found.')
         }
 
@@ -23,6 +23,6 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 
         msg.ack();
 
-        logger.info('Ticket updated event acknowledged', { ticketId: ticket.id });
+        logger.info('Ticket updated event acknowledged', { data });
     }
 }

@@ -8,15 +8,15 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     queueGroupName = QueueGroupName.OrdersService;
 
     async onMessage(data: TicketCreatedEvent['data'], msg: Message) {
-        logger.info('Ticket created event received', { ticketId: data.id });
+        logger.info('Ticket created event received', { data });
         const { id, title, price } = data;
         const ticket = Ticket.build({ id, title, price });
         await ticket.save();
 
-        logger.info('Ticket created', { ticketId: ticket.id });
+        logger.info('Ticket created', { data });
 
         msg.ack();
 
-        logger.info('Ticket created event acknowledged', { ticketId: ticket.id });
+        logger.info('Ticket created event acknowledged', { data });
     }
 }

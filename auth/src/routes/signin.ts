@@ -21,8 +21,9 @@ router.post(
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-        logger.info('Received sign in request', { requestBody: req.body });
         const { email, password } = req.body;
+        logger.info('Received sign in request', { email });
+        
 
         const existingUser = await User.findOne({ email });
         if(!existingUser) {
@@ -30,14 +31,14 @@ router.post(
             throw new BadRequestError('Invalid email.');
         }
 
-        logger.info('User found', { userId: existingUser.id });
+        logger.info('User found', { email, userId: existingUser.id });
         const passwordsMatch = await Password.comparePasswords(existingUser.password, password);
         if(!passwordsMatch) {
-            logger.warn('Invalid password', { userId: existingUser.id });
+            logger.warn('Invalid password', { email, userId: existingUser.id });
             throw new BadRequestError('Invalid password.')
         }
 
-        logger.info('Password matches', { userId: existingUser.id });
+        logger.info('Password matches', { email, userId: existingUser.id });
         const userJwt = jwt.sign(
             {
                 id: existingUser.id,
@@ -47,10 +48,11 @@ router.post(
         );
 
         req.session = {
+            email,
             jwt: userJwt
         };
 
-        logger.info('User signed in', { userId: existingUser.id });
+        logger.info('User signed in', { email, userId: existingUser.id });
         res.status(200).send(existingUser);
     }
 );
