@@ -25,11 +25,7 @@ router.delete(
             throw new NotAuthorizedError();
         }
 
-        order.status = OrderStatus.Cancelled;
-        await order.save();
-
-        logger.info('Order cancelled', { orderId });
-
+        logger.info('Order cancellation published', { orderId });
         new OrderCancelledPublisher(natsWrapper.client).publish({
             id: order.id,
             version: order.version,
@@ -38,7 +34,10 @@ router.delete(
             }
         });
 
-        logger.info('Order cancellation published', { orderId });
+        logger.info('Order cancelled', { orderId });
+        order.status = OrderStatus.Cancelled;
+        await order.save();
+
 
         res.status(204).send(order);
     }
