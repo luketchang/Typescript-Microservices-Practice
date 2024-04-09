@@ -49,7 +49,7 @@ router.post(
         });
         await order.save();
 
-        logger.info('Order created', { orderId: order.id });
+        logger.info('Order created', { order });
 
         new OrderCreatedPublisher(natsWrapper.client).publish({
             id: order.id,
@@ -63,7 +63,7 @@ router.post(
             }
         });
 
-        logger.info('Order creation published', { orderId: order.id });
+        logger.info('Order creation published', { order });
 
         res.status(201).send(order);
     }

@@ -4,7 +4,7 @@ const logger = winston.createLogger({
   level: "info",
   format: winston.format.json(),
   defaultMeta: { service: "tickets" },
-  transports: [new winston.transports.File({ filename: "combined.log" })],
+  transports: [new winston.transports.Console()],
 });
 
 if (process.env.NODE_ENV !== "production") {

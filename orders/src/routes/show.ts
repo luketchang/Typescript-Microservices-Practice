@@ -15,15 +15,15 @@ router.get(
         const order = await Order.findById(orderId).populate('ticket');
 
         if(!order) {
-            logger.warn('Order not found', { orderId });
+            logger.warn('Order not found', { order });
             throw new NotFoundError();
         }
         if(order.userId !== req.currentUser!.id) {
-            logger.warn('Not authorized to view order', { orderId, userId: req.currentUser!.id });
+            logger.warn('Not authorized to view order', { order, userId: req.currentUser!.id });
             throw new NotAuthorizedError();
         }
 
-        logger.info('Order retrieved', { orderId });
+        logger.info('Order retrieved', { order });
 
         res.send(order);
     }
