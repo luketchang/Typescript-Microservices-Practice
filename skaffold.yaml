@@ -1,65 +1,64 @@
 apiVersion: skaffold/v2alpha3
 kind: Config
 deploy:
-    kubectl:
-        manifests:
-            - ./infra/k8s/*
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
 build:
-    # local:
-    #     push: false
-    googleCloudBuild:
-        projectId: ticketing-dev-418316
-    artifacts:
-        - image: us.gcr.io/ticketing-dev-418316/auth
-          context: auth
-          docker:
-            dockerfile: Dockerfile
-          sync:
-            manual:
-              - src: 'src/*.ts'
-                dest: .
-              - src: 'src/**/*.ts'
-                dest: .
-        - image: us.gcr.io/ticketing-dev-418316/tickets
-          context: tickets
-          docker:
-            dockerfile: Dockerfile
-          sync:
-            manual:
-              - src: 'src/*.ts'
-                dest: .
-              - src: 'src/**/*.ts'
-                dest: .
-        - image: us.gcr.io/ticketing-dev-418316/client
-          context: client
-          docker:
-            dockerfile: Dockerfile
-          sync:
-            manual:
-              - src: 'src/**/*.js'
-                dest: .
-        - image: us.gcr.io/ticketing-dev-418316/orders
-          context: orders
-          docker:
-            dockerfile: Dockerfile
-          sync:
-            manual:
-              - src: 'src/**/*.js'
-                dest: .
-        - image: us.gcr.io/ticketing-dev-418316/expiration
-          context: expiration
-          docker:
-            dockerfile: Dockerfile
-          sync:
-            manual:
-              - src: 'src/**/*.js'
-                dest: .
-        - image: us.gcr.io/ticketing-dev-418316/payments
-          context: payments
-          docker:
-            dockerfile: Dockerfile
-          sync:
-            manual:
-              - src: 'src/**/*.js'
-                dest: .
-      
+  local:
+    push: false
+  # googleCloudBuild:
+  #   projectId: ticketing-dev-451322
+  artifacts:
+    - image: luketchang/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/*.ts"
+            dest: .
+          - src: "src/**/*.ts"
+            dest: .
+    - image: luketchang/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/*.ts"
+            dest: .
+          - src: "src/**/*.ts"
+            dest: .
+    - image: luketchang/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: luketchang/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: luketchang/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: luketchang/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
