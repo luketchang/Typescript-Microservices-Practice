@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: expiration-depl
+  name: expiration-depl
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: expiration
-    template:
-        metadata:
-            labels:
-                app: expiration
-        spec:
-            containers:
-                - name: expiration
-                  image: us.gcr.io/ticketing-dev-418316/expiration
-                  env:
-                    - name: NATS_URL
-                      value: 'https://nats-srv:4222'
-                    - name: NATS_CLUSTER_ID
-                      value: ticketing
-                    - name: NATS_CLIENT_ID
-                      valueFrom:
-                        fieldRef:
-                            fieldPath: metadata.name
-                    - name: REDIS_HOST
-                      value: expiration-redis-srv
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expiration
+  template:
+    metadata:
+      labels:
+        app: expiration
+    spec:
+      containers:
+        - name: expiration
+          image: luketchang/expiration
+          env:
+            - name: NATS_URL
+              value: "nats://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: ticketing
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIS_HOST
+              value: expiration-redis-srv

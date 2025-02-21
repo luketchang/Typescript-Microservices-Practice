@@ -4,7 +4,9 @@
 ./nats-test/node_modules
 .vscode
 
-./*/node_modules
+./**/node_modules
 
 general_notes.txt
 process_notes.txt
+
+**/*secrets.yaml

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-alloy
+  namespace: default
+  labels:
+    app: grafana-alloy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana-alloy
+  template:
+    metadata:
+      labels:
+        app: grafana-alloy
+    spec:
+      containers:
+        - name: grafana-alloy
+          image: grafana/alloy:latest
+          args:
+            - run
+            - /etc/alloy/alloy.hcl
+          env:
+            - name: LOKI_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: loki-credentials
+                  key: username
+            - name: LOKI_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: loki-credentials
+                  key: password
+          volumeMounts:
+            - name: config
+              mountPath: /etc/alloy
+            - name: containers
+              mountPath: /var/log/containers
+              readOnly: true
+            - name: pods
+              mountPath: /var/log/pods
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: alloy-config
+        - name: containers
+          hostPath:
+            path: /var/log/containers
+            type: Directory
+        - name: pods
+          hostPath:
+            path: /var/log/pods
+            type: Directory

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { validateRequest, BadRequestError } from '@lt-ticketing/common';
 import { User } from '../models/user'; 
 import { Password } from '../utils/password';
-import { logger } from '../logger';
+import { logger } from '@lt-ticketing/common';
 
 const router = express.Router();
 
