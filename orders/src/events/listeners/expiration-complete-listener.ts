@@ -28,7 +28,6 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
       msg.ack();
 
       logger.info("Expiration complete event acknowledged", { data });
-      return;
     }
 
     order.set({ status: OrderStatus.Cancelled });
