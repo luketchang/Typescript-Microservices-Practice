@@ -24,7 +24,7 @@ const start = async () => {
     );
 
     natsWrapper.client.on("close", () => {
-      logger.info("NATS connection closed!");
+      logger.info("NATS connection closed! Payment service exiting...");
       process.exit();
     });
     process.on("SIGINT", () => natsWrapper.client.close());
