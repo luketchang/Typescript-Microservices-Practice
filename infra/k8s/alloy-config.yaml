@@ -13,6 +13,14 @@ data:
       targets = discovery.kubernetes.pod.targets
 
       rule {
+        source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+        regex = "auth|payments|orders|tickets|expiration|"
+        action = "replace"
+        target_label = "app_group"
+        replacement = "application"
+      }
+
+      rule {
         source_labels = ["__meta_kubernetes_namespace"]
         action = "replace"
         target_label = "namespace"
